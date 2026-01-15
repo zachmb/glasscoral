@@ -1,0 +1,12 @@
+<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <linearGradient id="coral-smooth" x1="16" y1="2" x2="16" y2="30" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#FF9F7D" /> <stop offset="1" stop-color="#FF6347" /> </linearGradient>
+    </defs>
+    
+    <g stroke="url(#coral-smooth)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M13 27V5" />
+        
+        <path d="M13 17C13 17 22 17 22 11" />
+    </g>
+</svg>
