@@ -1,12 +1,9 @@
 <script lang="ts">
 	import { spring } from 'svelte/motion';
 
-	export let title: string;
-	export let description: string;
-	export let colSpan = 1;
-	export let rowSpan = 1;
+	let { title, description, class: className = '', children } = $props();
 
-	let hover = false;
+	let hover = $state(false);
 
 	const scale = spring(1, {
 		stiffness: 0.1,
@@ -25,10 +22,10 @@
 </script>
 
 <div
-	class="group relative cursor-default overflow-hidden rounded-3xl border border-white/10 bg-white/[0.02] p-8 backdrop-blur-xl transition-colors duration-500 hover:bg-white/[0.04]"
-	style="grid-column: span {colSpan}; grid-row: span {rowSpan}; transform: scale({$scale})"
-	on:mouseenter={handleMouseEnter}
-	on:mouseleave={handleMouseLeave}
+	class="group relative cursor-default overflow-hidden rounded-3xl border border-white/10 bg-white/[0.02] p-8 backdrop-blur-xl transition-colors duration-500 hover:bg-white/[0.04] {className}"
+	style="transform: scale({$scale})"
+	onmouseenter={handleMouseEnter}
+	onmouseleave={handleMouseLeave}
 	role="article"
 >
 	<!-- Inner Highlight/Glow -->
@@ -40,7 +37,7 @@
 	<div class="relative z-10 flex h-full flex-col justify-between">
 		<!-- Icon/Slot Area -->
 		<div class="mb-6 text-white/80">
-			<slot name="icon" />
+			{@render children?.()}
 		</div>
 
 		<!-- Content -->
