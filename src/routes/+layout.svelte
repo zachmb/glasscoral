@@ -1,43 +1,7 @@
 <script lang="ts">
 	import './layout.css';
-	import { page } from '$app/stores';
-	import { fly } from 'svelte/transition';
-	import { cubicOut } from 'svelte/easing';
-	import { afterNavigate, beforeNavigate } from '$app/navigation';
 
 	let { children } = $props();
-
-	// Route Order Definition
-	const routes = ['/', '/portfolio'];
-
-	let direction = $state(1);
-	let transitionDuration = 600;
-
-	beforeNavigate(({ to, from }) => {
-		const fromPath = from?.url.pathname ?? '/';
-		const toPath = to?.url.pathname ?? '/';
-
-		const fromIndex = routes.indexOf(fromPath);
-		const toIndex = routes.indexOf(toPath);
-
-		// Default to forward (1) if moving down the list or to unknown
-		if (fromIndex !== -1 && toIndex !== -1) {
-			direction = toIndex > fromIndex ? 1 : -1;
-		} else {
-			// Fallback for non-listed routes
-			direction = 1;
-		}
-	});
-
-	// Helper for animation params
-	function getTransitionParams() {
-		return {
-			x: direction * 100, // Distance to slide
-			duration: transitionDuration,
-			easing: cubicOut,
-			opacity: 0 // Fade as well
-		};
-	}
 </script>
 
 <!-- Liquid Glass Background -->
@@ -62,23 +26,10 @@
 	></div>
 </div>
 
-<!-- Page Content with Transition -->
-<div class="grid min-h-screen w-full grid-cols-1 grid-rows-1 overflow-x-hidden">
-	{#key $page.url.pathname}
-		<main
-			class="col-start-1 row-start-1 min-h-screen w-full"
-			in:fly={{
-				x: direction * 300,
-				duration: transitionDuration,
-				easing: cubicOut,
-				opacity: 1
-			}}
-			out:fly={{ x: direction * -300, duration: transitionDuration, easing: cubicOut, opacity: 1 }}
-		>
-			{@render children()}
-		</main>
-	{/key}
-</div>
+<!-- Page Content - Instant Navigation -->
+<main class="relative min-h-screen w-full">
+	{@render children()}
+</main>
 
 <style>
 	/* Custom slow pulse animation for the blobs */
