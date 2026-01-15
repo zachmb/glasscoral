@@ -1,4 +1,5 @@
 <script lang="ts">
+	import CoralIcon from '$lib/components/CoralIcon.svelte';
 	import { onMount } from 'svelte';
 
 	let isScrolled = false;
@@ -30,7 +31,7 @@
 				href="/"
 				class="hover:text-coral-400 flex items-center gap-3 text-lg font-bold tracking-tight text-white transition-colors"
 			>
-				<img src="/logo.svg" alt="GlassCoral Logo" class="h-8 w-8" />
+				<CoralIcon size={32} class="text-coral-400" />
 				GlassCoral
 			</a>
 
@@ -41,6 +42,9 @@
 				>
 				<a href="#how-it-works" class="text-sm text-white/60 transition-colors hover:text-white"
 					>How it Works</a
+				>
+				<a href="/portfolio" class="text-sm text-white/60 transition-colors hover:text-white"
+					>Portfolio</a
 				>
 			</div>
 

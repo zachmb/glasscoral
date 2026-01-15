@@ -345,15 +345,37 @@
 				else if (rand > 0.6) type = 'tube';
 				else if (rand > 0.45) type = 'grass';
 
-				// 2. Generate Geometry
-				const x = Math.random() * 1000; // Work in 1000px coordinate space
-				const y = 600; // Bottom
+				// 2. Decide Placement (Bottom vs Sides)
+				let x = Math.random() * 1000;
+				let y = 600; // Bottom
+				let rotation = randomRange(-5, 5);
+				let scaleMult = 1;
+
+				const placementRand = Math.random();
+				let isSide = false;
+
+				if (placementRand > 0.8) {
+					// Left Wall
+					x = 0;
+					y = randomRange(300, 600); // Only lower half
+					rotation = 90 + randomRange(-15, 15);
+					isSide = true;
+				} else if (placementRand > 0.6) {
+					// Right Wall
+					x = 1000;
+					y = randomRange(300, 600); // Only lower half
+					rotation = -90 + randomRange(-15, 15);
+					isSide = true;
+				}
+
 				let paths = { body: '', ridges: '' };
 
 				// Parametrization based on type
 				switch (type) {
 					case 'staghorn':
-						paths = generateStaghorn(x, y, -Math.PI / 2, 60, 8, 5);
+						// Side corals should be twistier/reach out
+						const len = isSide ? 90 : 60;
+						paths = generateStaghorn(x, y, -Math.PI / 2, len, 8, 5);
 						break;
 					case 'fan':
 						paths = generateSeaFan(x, y);
@@ -385,9 +407,9 @@
 					type,
 					layer: layerName,
 					x: (x / 1000) * 100, // Store as percentage
-					y: 100, // Bottom anchored
+					y: (y / 600) * 100, // Store as percentage of height
 					scale,
-					rotation: randomRange(-5, 5),
+					rotation,
 					bodyPath: paths.body,
 					ridgePath: paths.ridges,
 					style,
@@ -458,7 +480,10 @@
 					--mouse-x: {mouseOffsetX}px;
 				"
 			>
-				<g style="transform: translateX(calc({coral.x * 10}px + var(--mouse-x))) translateY(600px)">
+				<g
+					style="transform: translateX(calc({coral.x *
+						10}px + var(--mouse-x))) translateY({coral.y * 6}px)"
+				>
 					<g class="sway-anim">
 						<g
 							style="transform: scale(var(--base-scale)) rotate({coral.rotation}deg); opacity: {coral.opacity}; filter: blur({coral.blur}px)"

@@ -2,7 +2,7 @@
 	import { onMount } from 'svelte';
 	import { fly } from 'svelte/transition';
 	import { cubicOut } from 'svelte/easing';
-	import { Play, Crosshair, FileText, Terminal, LayoutGrid } from 'lucide-svelte';
+	import { Play, FileText, Terminal, LayoutGrid } from 'lucide-svelte';
 
 	import IslandNav from '$lib/components/IslandNav.svelte';
 	import CoralDrifters from '$lib/components/CoralDrifters.svelte';
@@ -12,6 +12,7 @@
 	import Button from '$lib/components/Button.svelte';
 	import CoralBranch from '$lib/components/CoralBranch.svelte';
 	import CoralField from '$lib/components/CoralField.svelte';
+	import CoralIcon from '$lib/components/CoralIcon.svelte';
 
 	// Intersection Observer Action
 	function viewport(element: HTMLElement, params: { once?: boolean } = {}) {
@@ -197,7 +198,7 @@
 							class="md:col-start-1 md:row-start-1"
 						>
 							<div class="w-fit rounded-xl border border-white/10 bg-white/5 p-3">
-								<Crosshair class="text-coral-400" size={32} />
+								<CoralIcon class="text-coral-400" size={32} />
 							</div>
 						</BentoCard>
 
@@ -390,7 +391,7 @@
 			onviewportenter={() => (visibleSections.footer = true)}
 		>
 			<div class="z-20 mb-12 text-center">
-				<p class="mb-4 font-mono text-sm tracking-widest text-white/40 uppercase">GlassCoral AI</p>
+				<p class="mb-4 font-mono text-sm tracking-widest text-white/40 uppercase">GlassCoral</p>
 				<p class="mx-auto max-w-md px-6 text-lg text-white/60">
 					Building the next generation of AI-native companies.
 				</p>
