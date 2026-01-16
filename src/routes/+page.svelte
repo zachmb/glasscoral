@@ -2,17 +2,18 @@
 	import { onMount } from 'svelte';
 	import { fly } from 'svelte/transition';
 	import { cubicOut } from 'svelte/easing';
-	import { Play, FileText, Terminal, LayoutGrid } from 'lucide-svelte';
+	import { Play, FileText, Terminal, LayoutGrid, MoveRight } from 'lucide-svelte';
 
+	/*
+	  IMPORTS
+	*/
 	import IslandNav from '$lib/components/IslandNav.svelte';
 	import CoralDrifters from '$lib/components/CoralDrifters.svelte';
-	import DeepfakeChart from '$lib/components/DeepfakeChart.svelte';
-	import BentoCard from '$lib/components/BentoCard.svelte';
-	import TabSwitcher from '$lib/components/TabSwitcher.svelte';
-	import Button from '$lib/components/Button.svelte';
+	import StatsTicker from '$lib/components/StatsTicker.svelte';
+	import StudioShowcase from '$lib/components/StudioShowcase.svelte';
 	import CoralBranch from '$lib/components/CoralBranch.svelte';
 	import CoralField from '$lib/components/CoralField.svelte';
-	import CoralIcon from '$lib/components/CoralIcon.svelte';
+	import Button from '$lib/components/Button.svelte';
 
 	// Intersection Observer Action
 	function viewport(element: HTMLElement, params: { once?: boolean } = {}) {
@@ -28,7 +29,7 @@
 		}
 
 		onMount(() => {
-			observer = new IntersectionObserver(handleIntersect, { threshold: 0.2 });
+			observer = new IntersectionObserver(handleIntersect, { threshold: 0.1 });
 			observer.observe(element);
 			return () => observer.disconnect();
 		});
@@ -37,17 +38,13 @@
 	// State for Sections Visibility
 	let visibleSections = $state({
 		hero: false,
-		tabs: false,
-		data: false,
-		grid: false,
-		steps: false,
+		stats: false,
+		studios: false,
+		methodology: false,
 		footer: false
 	});
 
-	// Tab State
-	let activeTab = $state('Conversations');
-
-	// Step State
+	// Step State for Methodology
 	let activeStep = $state(0);
 
 	function stepInView(element: HTMLElement, index: number) {
@@ -88,172 +85,145 @@
 	<main class="relative z-20">
 		<!-- Section 1: The Hero -->
 		<section
-			class="relative flex min-h-screen flex-col items-center justify-center px-6 text-center"
+			class="relative flex min-h-screen flex-col items-center justify-center px-6 pt-40 pb-64 text-center"
 			use:viewport={{ once: true }}
 			onviewportenter={() => (visibleSections.hero = true)}
 		>
+			<div class="text-coral-400 mb-6 font-mono text-sm tracking-widest uppercase opacity-80">
+				/// Built by Ex-Founders >>>
+			</div>
+
 			{#if visibleSections.hero}
-				<div in:fly={flyParams} class="mx-auto max-w-4xl space-y-8">
-					<h1 class="font-display text-7xl leading-[1.1] font-medium tracking-tight md:text-8xl">
+				<div in:fly={flyParams} class="mx-auto max-w-5xl space-y-8">
+					<h1 class="font-display text-5xl leading-[1.1] font-medium tracking-tight md:text-8xl">
+						We build, iterate <br />
+						& scale
 						<span
-							class="via-coral-300 bg-gradient-to-r from-white to-white/50 bg-clip-text text-transparent"
-							>Cultivating</span
-						> the next generation of AI.
+							class="via-coral-300 bg-gradient-to-r from-white to-white/50 bg-clip-text pl-4 text-transparent italic"
+							>software companies.</span
+						>
 					</h1>
 
-					<p class="mx-auto max-w-[65ch] text-xl leading-relaxed font-light text-white/70">
-						A studio building the future of software. From gaming to digital wellness and social OS.
+					<p class="mx-auto max-w-[60ch] text-xl leading-relaxed font-light text-white/60">
+						A tech company mainly focused on building, acquiring and managing cool projects.
 					</p>
 
-					<div class="flex items-center justify-center gap-4 pt-4">
-						<Button variant="ghost">
-							<span class="flex items-center gap-2">
-								Our Philosophy <Play size={16} />
-							</span>
-						</Button>
+					<div class="flex flex-col items-center justify-center gap-4 pt-8 sm:flex-row">
+						<Button variant="coral">Join The Reef</Button>
+						<Button variant="ghost">Enter The Trench</Button>
 					</div>
 				</div>
+
+				<!-- Floating Kelp Decorations -->
+				<CoralBranch
+					variant={5}
+					sway={true}
+					class="pointer-events-none absolute bottom-[-100px] left-[-10%] z-0 h-[600px] w-[300px] rotate-12 opacity-20 blur-sm"
+				/>
+				<CoralBranch
+					variant={5}
+					sway={true}
+					class="pointer-events-none absolute top-[20%] right-[-5%] z-0 h-[500px] w-[250px] -rotate-6 opacity-15 blur-sm"
+				/>
 			{/if}
 		</section>
 
-		<!-- Section 2: "See Through the Glass" -->
+		<!-- Section 2: Stats / Vision -->
 		<section
-			class="relative flex flex-col items-center px-6 py-32"
 			use:viewport={{ once: true }}
-			onviewportenter={() => (visibleSections.tabs = true)}
+			onviewportenter={() => (visibleSections.stats = true)}
+			class="relative z-30"
 		>
-			<!-- MAIN SPLITTING CORAL BRANCH (Right Side) -->
+			{#if visibleSections.stats}
+				<StatsTicker />
+			{/if}
+		</section>
+
+		<!-- Section 3: Studio Showcase -->
+		<section
+			id="studios"
+			class="relative flex flex-col items-center px-6 py-64"
+			use:viewport={{ once: true }}
+			onviewportenter={() => (visibleSections.studios = true)}
+		>
+			<!-- Decoration -->
 			<CoralBranch
-				variant={4}
-				class="pointer-events-none absolute top-[-50px] right-[-10%] z-0 h-[600px] w-[300px] rotate-12 opacity-40"
+				variant={5}
+				sway={true}
+				class="pointer-events-none absolute top-0 left-0 z-0 h-[800px] w-[400px] -rotate-12 opacity-30"
 			/>
-			{#if visibleSections.tabs}
-				<div in:fly={{ ...flyParams, delay: 200 }} class="w-full max-w-5xl space-y-12">
-					<div class="space-y-4 text-center">
-						<h2 class="font-display text-4xl tracking-tight md:text-5xl">Our Focus Areas</h2>
-						<p class="mx-auto max-w-2xl text-white/60">
-							We don't just build products; we build ecosystems. Our ventures span gaming,
-							productivity, and social operating systems.
-						</p>
+
+			{#if visibleSections.studios}
+				<div in:fly={flyParams} class="w-full max-w-7xl space-y-24">
+					<!-- The Reef (Public Startups) -->
+					<div class="flex flex-col gap-12 lg:flex-row">
+						<div class="shrink-0 space-y-6 lg:w-1/4">
+							<h2 class="font-display text-6xl font-bold tracking-tighter text-white">
+								THE <br /> REEF
+							</h2>
+							<div class="bg-coral-500 h-px w-20"></div>
+							<p class="text-white/60">
+								Our publicly visible ecosystem. Ventures scaling in the light.
+							</p>
+						</div>
+						<div class="lg:w-3/4">
+							<StudioShowcase />
+						</div>
 					</div>
 
-					<div class="flex justify-center">
-						<TabSwitcher bind:activeTab />
-					</div>
-
+					<!-- The Trench (Stealth Startups) -->
 					<div
-						class="relative flex aspect-video w-full items-center justify-center overflow-hidden rounded-3xl border border-white/10 bg-white/5 shadow-2xl backdrop-blur-sm"
+						class="relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-12 backdrop-blur-md"
 					>
-						<!-- Dynamic Content based on generic ActiveTab -->
-						<p class="text-lg tracking-widest text-white/30 uppercase">{activeTab} Demo Mockup</p>
 						<div
-							class="absolute inset-0 bg-gradient-to-t from-[#020408] via-transparent to-transparent opacity-50"
-						></div>
+							class="flex flex-col items-start gap-8 md:flex-row md:items-center md:justify-between"
+						>
+							<div class="space-y-4">
+								<h2 class="font-display text-4xl font-bold text-white">GLASS TRENCH</h2>
+								<p class="text-coral-400 font-mono">/// STEALTH INCUBATION >>></p>
+								<p class="max-w-xl text-white/60">
+									The stealth startups we own. Hidden from the surface, building the next wave of
+									infrastructure.
+								</p>
+							</div>
+							<Button variant="ghost" class="shrink-0">Enter The Trench</Button>
+						</div>
 					</div>
 				</div>
 			{/if}
 		</section>
 
-		<!-- Section 3: The Data Story -->
+		<!-- Section 4: Methodology -->
 		<section
-			class="px-6 py-32"
+			id="methodology"
+			class="px-6 py-64"
 			use:viewport={{ once: true }}
-			onviewportenter={() => (visibleSections.data = true)}
+			onviewportenter={() => (visibleSections.methodology = true)}
 		>
-			{#if visibleSections.data}
-				<div in:fly={flyParams} class="mx-auto grid max-w-5xl items-center gap-16 md:grid-cols-2">
-					<div class="space-y-6">
-						<h2 class="font-display text-4xl tracking-tight md:text-5xl">Impact at Scale.</h2>
-						<p class="text-lg leading-relaxed text-white/60">
-							Across our portfolio, we reach millions of users daily. From 120M+ page views in
-							gaming to 10M+ interactions in digital wellness presence.
-						</p>
-					</div>
-					<div class="relative">
-						<DeepfakeChart />
-						<!-- Glow under chart -->
-						<div
-							class="pointer-events-none absolute -inset-10 z-[-1] rounded-full bg-[#FF6B6B] opacity-10 blur-[100px]"
-						></div>
-					</div>
-				</div>
-			{/if}
-		</section>
-
-		<!-- Section 4: "Why Glass" (Bento Grid) -->
-		<section
-			id="features"
-			class="px-6 py-32"
-			use:viewport={{ once: true }}
-			onviewportenter={() => (visibleSections.grid = true)}
-		>
-			{#if visibleSections.grid}
-				<div in:fly={flyParams} class="mx-auto max-w-6xl">
-					<div class="grid h-auto grid-cols-1 gap-6 md:h-[600px] md:grid-cols-2 md:grid-rows-2">
-						<!-- Card 1: Precision Engineering (Top Left) -->
-						<BentoCard
-							title="Precision Engineering"
-							description="We obsess over the details. Performance, aesthetics, and user experience are never compromised."
-							class="md:col-start-1 md:row-start-1"
-						>
-							<div class="w-fit rounded-xl border border-white/10 bg-white/5 p-3">
-								<CoralIcon class="text-coral-400" size={32} />
-							</div>
-						</BentoCard>
-
-						<!-- Card 2: Built for Scale (Bottom Left) -->
-						<BentoCard
-							title="Built for Scale"
-							description="Our infrastructure is designed to handle millions of concurrent users from day one."
-							class="md:col-start-1 md:row-start-2"
-						>
-							<div
-								class="flex w-fit items-center gap-2 rounded-xl border border-white/10 bg-white/5 p-3"
-							>
-								<span class="text-coral-400 font-mono text-xl">130</span>
-								<span class="font-mono text-xl text-white/50">M+</span>
-							</div>
-						</BentoCard>
-
-						<!-- Card 3: Studio Model (Right Tall) -->
-						<BentoCard
-							title="Studio Model"
-							description="Shared resources, shared knowledge. We leverage our collective expertise to accelerate every venture we launch."
-							class="h-full md:col-start-2 md:row-span-2 md:row-start-1"
-						>
-							<div class="flex items-center gap-4">
-								<div class="w-fit rounded-xl border border-white/10 bg-white/5 p-3">
-									<FileText class="text-coral-400" size={32} />
-								</div>
-								<div class="w-fit rounded-xl border border-white/10 bg-white/5 p-3 opacity-50">
-									<LayoutGrid class="text-white" size={32} />
-								</div>
-							</div>
-						</BentoCard>
-					</div>
-				</div>
-			{/if}
-		</section>
-
-		<!-- Section 5: "How Glass Works" -->
-		<section
-			id="how-it-works"
-			class="px-6 py-32"
-			use:viewport={{ once: true }}
-			onviewportenter={() => (visibleSections.steps = true)}
-		>
-			{#if visibleSections.steps}
-				<div in:fly={flyParams} class="mx-auto grid max-w-6xl items-start gap-20 md:grid-cols-2">
+			<!-- Background Decoration -->
+			<CoralBranch
+				variant={5}
+				sway={true}
+				class="pointer-events-none absolute top-[10%] left-[-5%] z-0 h-[700px] w-[350px] rotate-6 opacity-20 mix-blend-screen blur-sm"
+			/>
+			{#if visibleSections.methodology}
+				<div in:fly={flyParams} class="mx-auto grid max-w-7xl items-start gap-20 md:grid-cols-2">
 					<!-- Steps List (Scrollable) -->
-					<div class="space-y-64 py-20 pb-64">
+					<div class="space-y-32 py-20 pb-64">
 						<div class="space-y-4">
-							<span class="text-coral-400 font-mono text-sm tracking-wider uppercase"
-								>Our Process</span
+							<span class="text-coral-400 font-mono text-sm tracking-widest uppercase"
+								>/// ABOUT US | OUR VISION >>></span
 							>
-							<h2 class="font-display text-4xl tracking-tight md:text-5xl">Incubation to Exit.</h2>
+							<h2 class="font-display text-5xl font-bold tracking-tight md:text-6xl">
+								We build products that matter.
+							</h2>
+							<p class="text-xl text-white/60">
+								From zero to scale, we obsess over every detail that drives growth. A studio mainly
+								focused on building, acquiring and managing cool projects.
+							</p>
 						</div>
 
-						<div class="relative ml-4 space-y-64 border-l border-white/10 pl-12">
+						<div class="relative ml-4 space-y-48 border-l border-white/10 pl-12">
 							<!-- Step 0 -->
 							<div
 								class="relative transition-opacity duration-500 {activeStep === 0
@@ -262,17 +232,20 @@
 								use:stepInView={0}
 							>
 								<div
-									class="absolute top-1 -left-[55px] z-10 flex h-8 w-8 items-center justify-center rounded-full border bg-[#020408] transition-all duration-500 {activeStep ===
+									class="absolute top-1 -left-[53.5px] z-10 flex h-7 w-7 items-center justify-center rounded-full border bg-[#020408] transition-all duration-500 {activeStep ===
 									0
-										? 'border-coral-500/50 scale-110'
-										: 'scale-100 border-white/10'}"
+										? 'border-coral-500 scale-125'
+										: 'scale-100 border-white/20'}"
 								>
 									{#if activeStep === 0}
-										<div class="bg-coral-500 h-3 w-3 rounded-full" in:fly={{ duration: 300 }}></div>
+										<div
+											class="bg-coral-500 h-2 w-2 rounded-full shadow-[0_0_10px_rgba(255,107,107,0.8)]"
+											in:fly={{ duration: 300 }}
+										></div>
 									{/if}
 								</div>
-								<h3 class="mb-2 text-xl font-bold text-white">Ideation</h3>
-								<p class="text-white/50">
+								<h3 class="mb-2 text-2xl font-bold text-white">Ideation</h3>
+								<p class="text-lg text-white/50">
 									We start with a problem. Deep research, market analysis, and a relentless focus on
 									value.
 								</p>
@@ -286,17 +259,20 @@
 								use:stepInView={1}
 							>
 								<div
-									class="absolute top-1 -left-[55px] z-10 flex h-8 w-8 items-center justify-center rounded-full border bg-[#020408] transition-all duration-500 {activeStep ===
+									class="absolute top-1 -left-[53.5px] z-10 flex h-7 w-7 items-center justify-center rounded-full border bg-[#020408] transition-all duration-500 {activeStep ===
 									1
-										? 'border-coral-500/50 scale-110'
-										: 'scale-100 border-white/10'}"
+										? 'border-coral-500 scale-125'
+										: 'scale-100 border-white/20'}"
 								>
 									{#if activeStep === 1}
-										<div class="bg-coral-500 h-3 w-3 rounded-full" in:fly={{ duration: 300 }}></div>
+										<div
+											class="bg-coral-500 h-2 w-2 rounded-full shadow-[0_0_10px_rgba(255,107,107,0.8)]"
+											in:fly={{ duration: 300 }}
+										></div>
 									{/if}
 								</div>
-								<h3 class="mb-2 text-xl font-bold text-white">Development</h3>
-								<p class="text-white/50">
+								<h3 class="mb-2 text-2xl font-bold text-white">Development</h3>
+								<p class="text-lg text-white/50">
 									Rapid prototyping. We ship fast, iterate faster, and build with scalability in
 									mind.
 								</p>
@@ -310,42 +286,22 @@
 								use:stepInView={2}
 							>
 								<div
-									class="absolute top-1 -left-[55px] z-10 flex h-8 w-8 items-center justify-center rounded-full border bg-[#020408] transition-all duration-500 {activeStep ===
+									class="absolute top-1 -left-[53.5px] z-10 flex h-7 w-7 items-center justify-center rounded-full border bg-[#020408] transition-all duration-500 {activeStep ===
 									2
-										? 'border-coral-500/50 scale-110'
-										: 'scale-100 border-white/10'}"
+										? 'border-coral-500 scale-125'
+										: 'scale-100 border-white/20'}"
 								>
 									{#if activeStep === 2}
-										<div class="bg-coral-500 h-3 w-3 rounded-full" in:fly={{ duration: 300 }}></div>
+										<div
+											class="bg-coral-500 h-2 w-2 rounded-full shadow-[0_0_10px_rgba(255,107,107,0.8)]"
+											in:fly={{ duration: 300 }}
+										></div>
 									{/if}
 								</div>
-								<h3 class="mb-2 text-xl font-bold text-white">Growth</h3>
-								<p class="text-white/50">
+								<h3 class="mb-2 text-2xl font-bold text-white">Growth</h3>
+								<p class="text-lg text-white/50">
 									Leveraging our network. We push for mass adoption through organic and viral
 									channels.
-								</p>
-							</div>
-
-							<!-- Step 3 -->
-							<div
-								class="relative transition-opacity duration-500 {activeStep === 3
-									? 'opacity-100'
-									: 'opacity-30'}"
-								use:stepInView={3}
-							>
-								<div
-									class="absolute top-1 -left-[55px] z-10 flex h-8 w-8 items-center justify-center rounded-full border bg-[#020408] transition-all duration-500 {activeStep ===
-									3
-										? 'border-coral-500/50 scale-110'
-										: 'scale-100 border-white/10'}"
-								>
-									{#if activeStep === 3}
-										<div class="bg-coral-500 h-3 w-3 rounded-full" in:fly={{ duration: 300 }}></div>
-									{/if}
-								</div>
-								<h3 class="mb-2 text-xl font-bold text-white">Scale</h3>
-								<p class="text-white/50">
-									From a product to a platform. We expand, diversify, and dominate the vertical.
 								</p>
 							</div>
 						</div>
@@ -362,17 +318,27 @@
 
 							<!-- Animated Content based on activeStep -->
 							{#key activeStep}
-								<div in:fly={{ y: 20, duration: 400 }} class="flex flex-col items-center">
-									<Terminal class="mb-4 text-white/20" size={64} />
-									<p class="px-8 text-center font-mono text-sm text-white/30">
+								<div
+									in:fly={{ y: 20, duration: 400 }}
+									class="flex flex-col items-center p-8 text-center"
+								>
+									<Terminal class="text-coral-400 mb-6" size={64} />
+									<h4 class="mb-2 font-display text-2xl font-bold text-white">
 										{#if activeStep === 0}
-											Validating Core Thesis
+											Thesis Validation
 										{:else if activeStep === 1}
-											Building the MVP
-										{:else if activeStep === 2}
-											Market Penetration
+											MVP Construction
 										{:else}
-											Vertical Domination
+											Market Penetration
+										{/if}
+									</h4>
+									<p class="px-4 font-mono text-sm text-white/40">
+										{#if activeStep === 0}
+											Analyze. Hypothesize. Verify.
+										{:else if activeStep === 1}
+											Code. Deploy. Iterate.
+										{:else}
+											Scale. optimize. Dominate.
 										{/if}
 									</p>
 								</div>
