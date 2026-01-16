@@ -43,9 +43,6 @@
 				<a href="#how-it-works" class="text-sm text-white/60 transition-colors hover:text-white"
 					>How it Works</a
 				>
-				<a href="/portfolio" class="text-sm text-white/60 transition-colors hover:text-white"
-					>Portfolio</a
-				>
 			</div>
 
 			<!-- CTA -->

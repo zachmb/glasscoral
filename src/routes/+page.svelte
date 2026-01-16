@@ -106,7 +106,6 @@
 					</p>
 
 					<div class="flex items-center justify-center gap-4 pt-4">
-						<Button variant="coral">View Portfolio</Button>
 						<Button variant="ghost">
 							<span class="flex items-center gap-2">
 								Our Philosophy <Play size={16} />
