@@ -398,7 +398,7 @@
 
 			<div class="relative z-20 w-full overflow-hidden px-2">
 				<h1
-					class="w-full bg-gradient-to-t from-white/20 to-white/5 bg-clip-text text-center font-display text-[14vw] leading-[0.7] font-bold tracking-tighter text-transparent opacity-50 mix-blend-overlay select-none"
+					class="w-full bg-gradient-to-t from-white/80 to-white/20 bg-clip-text text-center font-display text-[14vw] leading-[0.7] font-bold tracking-tighter text-transparent select-none"
 				>
 					GLASSCORAL
 				</h1>
