@@ -99,7 +99,7 @@
 						We build, iterate <br />
 						& scale
 						<span
-							class="via-coral-300 bg-gradient-to-r from-white to-white/50 bg-clip-text pl-4 text-transparent italic"
+							class="via-coral-300 bg-gradient-to-r from-white to-white/50 box-decoration-clone bg-clip-text pr-2 text-transparent italic"
 							>software companies.</span
 						>
 					</h1>
