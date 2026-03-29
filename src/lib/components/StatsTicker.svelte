@@ -4,9 +4,7 @@
 
 	// Stats Data
 	const stats = [
-		{ value: '$1 Million', label: 'ARR Reached' },
-		{ value: '5x', label: 'Exits this Year' },
-		{ value: '99%', label: 'Industry Fail Rate' },
+		{ value: '400M+', label: 'Impressions' },
 		{ value: '1M+', label: 'Active Users' }
 	];
 
@@ -24,8 +22,8 @@
 		<div class="max-w-md space-y-4 px-6 text-center md:text-left">
 			<h3 class="font-display text-2xl font-bold text-white">DEPTH & SCALE</h3>
 			<p class="text-white/60">
-				99% of companies never get to $1Million ARR, but we did it 5 times this year alone. A tech
-				company mainly focused on building, acquiring and managing cool projects.
+				400M+ impressions delivered across our portfolio this year. A tech company focused on
+				building, acquiring and managing cool projects at scale.
 			</p>
 		</div>
 
